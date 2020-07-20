@@ -16,27 +16,15 @@
 
 #define DEFAULT_PROM_SERVER_PORT (9121)
 
-prom_gauge_t *turn_status;
+prom_counter_t *turn_server_peer_traffic_rcvp;
+prom_counter_t *turn_server_peer_traffic_rcvb;
+prom_counter_t *turn_server_peer_traffic_sentp;
+prom_counter_t *turn_server_peer_traffic_sentb;
 
-prom_gauge_t *turn_traffic_rcvp;
-prom_gauge_t *turn_traffic_rcvb;
-prom_gauge_t *turn_traffic_sentp;
-prom_gauge_t *turn_traffic_sentb;
-
-prom_gauge_t *turn_total_traffic_rcvp;
-prom_gauge_t *turn_total_traffic_rcvb;
-prom_gauge_t *turn_total_traffic_sentp;
-prom_gauge_t *turn_total_traffic_sentb;
-
-prom_gauge_t *turn_traffic_peer_rcvp;
-prom_gauge_t *turn_traffic_peer_rcvb;
-prom_gauge_t *turn_traffic_peer_sentp;
-prom_gauge_t *turn_traffic_peer_sentb;
-
-prom_gauge_t *turn_total_traffic_peer_rcvp;
-prom_gauge_t *turn_total_traffic_peer_rcvb;
-prom_gauge_t *turn_total_traffic_peer_sentp;
-prom_gauge_t *turn_total_traffic_peer_sentb;
+prom_counter_t *turn_server_total_traffic_rcvp;
+prom_counter_t *turn_server_total_traffic_rcvb;
+prom_counter_t *turn_server_total_traffic_sentp;
+prom_counter_t *turn_server_total_traffic_sentb;
 
 #ifdef __cplusplus
 extern "C" {
@@ -45,10 +33,7 @@ extern "C" {
 
 int start_prometheus_server(void);
 
-void prom_set_status(const char* realm, const char* user, unsigned long long allocation, const char* status, unsigned long lifetime);
-void prom_del_status(const char* realm, const char* user, unsigned long long allocation, const char* status);
-void prom_set_traffic(const char* realm, const char* user, unsigned long long allocation, unsigned long rsvp, unsigned long rsvb, unsigned long sentp, unsigned long sentb, bool peer);
-void prom_set_total_traffic(const char* realm, const char* user, unsigned long long allocation, unsigned long rsvp, unsigned long rsvb, unsigned long sentp, unsigned long sentb, bool peer);
+void prom_set_traffic(unsigned long rsvp, unsigned long rsvb, unsigned long sentp, unsigned long sentb, bool peer);
 
 #endif /* TURN_NO_PROMETHEUS */
 
