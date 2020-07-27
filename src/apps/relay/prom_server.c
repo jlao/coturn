@@ -20,6 +20,8 @@ int start_prometheus_server(void){
   turn_server_total_traffic_sentp = prom_collector_registry_must_register_metric(prom_counter_new("turn_server_total_traffic_sentp", "Represents total sent packets across all allocations", 0, NULL));
   turn_server_total_traffic_sentb = prom_collector_registry_must_register_metric(prom_counter_new("turn_server_total_traffic_sentb", "Represents total sent bytes across all allocations", 0, NULL));
 
+  turn_server_allocation_count = prom_collector_registry_must_register_metric(prom_gauge_new("turn_server_allocation_count", "Total number of allocations", 0, NULL));
+
   promhttp_set_active_collector_registry(NULL);
   
 
@@ -44,6 +46,16 @@ void prom_set_traffic(unsigned long rsvp, unsigned long rsvb, unsigned long sent
       prom_counter_add(turn_server_total_traffic_sentb, sentb, NULL);
     }
   }
+}
+
+void prom_set_allocation(bool refresh) {
+  if (!refresh) {
+    prom_gauge_inc(turn_server_allocation_count, NULL);
+  }
+}
+
+void prom_delete_allocation() {
+  prom_gauge_dec(turn_server_allocation_count, NULL);
 }
 
 #endif /* TURN_NO_PROMETHEUS */

@@ -3612,6 +3612,11 @@ void turn_report_allocation_set(void *a, turn_time_t lifetime, int refresh)
 					send_message_to_redis(e->rch, "publish", key, "%s lifetime=%lu", status, (unsigned long)lifetime);
 				}
 #endif
+#if !defined(TURN_NO_PROMETHEUS)
+				{
+					prom_set_allocation(refresh);
+				}
+#endif
 			}
 		}
 	}
@@ -3653,6 +3658,11 @@ void turn_report_allocation_delete(void *a)
 						snprintf(key, sizeof(key), "turn/user/%s/allocation/%018llu/total_traffic/peer", (char*)ss->username, (unsigned long long)(ss->id));
 					}
 					send_message_to_redis(e->rch, "publish", key, "rcvp=%lu, rcvb=%lu, sentp=%lu, sentb=%lu", (unsigned long)(ss->t_peer_received_packets), (unsigned long)(ss->t_peer_received_bytes), (unsigned long)(ss->t_peer_sent_packets), (unsigned long)(ss->t_peer_sent_bytes));
+				}
+#endif
+#if !defined(TURN_NO_PROMETHEUS)
+				{
+					prom_delete_allocation();
 				}
 #endif
 			}

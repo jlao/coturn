@@ -26,6 +26,8 @@ prom_counter_t *turn_server_total_traffic_rcvb;
 prom_counter_t *turn_server_total_traffic_sentp;
 prom_counter_t *turn_server_total_traffic_sentb;
 
+prom_gauge_t *turn_server_allocation_count;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -34,6 +36,9 @@ extern "C" {
 int start_prometheus_server(void);
 
 void prom_set_traffic(unsigned long rsvp, unsigned long rsvb, unsigned long sentp, unsigned long sentb, bool peer);
+
+void prom_set_allocation(bool refresh);
+void prom_delete_allocation(void);
 
 #endif /* TURN_NO_PROMETHEUS */
 
